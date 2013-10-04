@@ -1,0 +1,121 @@
+<!doctype html>
+<!--
+Yeah...I paid attention!
+
+Thorough attention to detail is important. Including a comment in your finished product that contains this paragraph will signal that you pay close attention to detail, which will reflect favorably on your application. While it is to be expected that a webpage will have some degree of variation from the original comps, we aim for as close to pixel perfect as we can get—size, color, gradients, positioning, the works.
+
+-->
+<html ng-app> 
+	<head>
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+		<title>King Kong vs. Gravity</title>
+		<style>
+			#kingKong {
+				position: absolute;
+				top: 25px;
+				left: 125px;
+			}
+
+			#empire {
+				position: absolute;
+				bottom: 0;
+			}
+
+			#actionCol {
+				height: 600px;
+			}
+
+			#completedInfo {
+				display: none;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div ng-controller="Planets">
+			<div id="controlsRow" class="row" style="padding: 5px 25px; margin-bottom: 10px; border-bottom: 1px solid #000;">
+				<div class="col-lg-2">
+					<select ng-model="selected_planet"
+							ng-options="planet.name for planet in planets">
+						<option value="">Chose a planet:</option>
+					</select>
+					<input id="fallTime" type="hidden" value="{{selected_planet.fall}}" />
+				</div>
+				<div class="col-lg-10">
+					<button type="button" class="btn btn-primary" ng-click="run()">Go!</button>
+				</div>
+			</div>
+			<div class="row">
+				<div id="actionCol" class="col-lg-5">
+					<img id="empire" src="img/empire.jpg" />
+					<img id="kingKong" src="img/kingKong.jpg" />
+				</div>
+				<div class="col-lg-6" style="text-align: center;">
+					<h1>King Kong vs. Gravity on ...</h1>
+					<h2>{{selected_planet.name}}</h2>
+					<div id="completedInfo" class="row">
+						<h3>{{selected_planet.seconds}} seconds!</h3>
+						<p style="text-align: left;">The mass of an object helps determine it's gravitational force. If an object is larger, the graviational force is stronger and objects fall faster!</p>
+						<p><button type="button" class="btn btn-primary" onClick="window.location.reload(true);">Try again!</button></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="openingModal" class="modal fade">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-body">
+		        <h1 style="text-align: center;">It's King Kong vs. Gravity!</h1>
+		        <p>King Kong is about to fall from the top of the Empire State building, but how long will it take for him to reach the ground? Well, it depends on what planet you're on!</p>
+		        <p>Select a planet (or moon) to see how gravity effects how long it takes for King Kong to reach the ground. You might be surprised!</p>
+		        <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" data-dismiss="modal">Get Started!</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+		<script>
+
+			$(document).ready(function() {
+				$('#openingModal').modal('show');
+			});
+
+			var Planets = function($scope) {
+			$scope.planets = [
+						{name: 'Earth', fall: 4520, seconds: 4.52},
+						{name: 'The Moon', fall: 11180, seconds: 11.18},
+						{name: 'Mars', fall: 7350, seconds: 7.35},
+						{name: 'Jupiter', fall: 2840, seconds: 2.84}
+					];
+
+			//var fallTime = selected_planet.fall;
+
+
+			$scope.run = function() {
+
+				var onGround = function() {
+					$('#controlsRow').hide();
+					$('#completedInfo').show();
+				};
+
+
+				var fallTime = parseInt($('#fallTime').val());
+				$('#kingKong').css({'transform': 'rotate(90deg', '-ms-transform': 'rotate(90deg)', '-webkit-transform': 'rotate(90deg)'});
+				$('#kingKong').animate({
+					top: '+=500px'
+				}, fallTime, onGround);
+				//alert(fallTime);
+
+
+			};
+		};
+
+		</script>
+	</body>
+</html>
